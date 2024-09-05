@@ -1,8 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.send('teste');
-});
+const armadilhaController = require('./controllers/armadilhasController')
+const armadilhaMiddleware = require('./middlewares/armadilhasMiddleware')
+
+//Armadilhas
+router.get('/armadilhas', armadilhaController.getAll);
+router.post('/armadilhas', armadilhaMiddleware.validateBody, armadilhaController.createArmadilha);
+router.delete('/armadilhas/:id', armadilhaController.deleteArmadilha);
+router.put('/armadilhas/:id', armadilhaController.updateArmadilha);
 
 module.exports = router;
