@@ -21,19 +21,24 @@ const validadeIdDispositivo = async (req, res, next) => {
 const validateNomePasta = async (req, res, next) => {
     const { body } = req;
 
-    if (body.nome_pasta === undefined) {
-        return res.status(400).json({ message: `O nome da pasta é obrigatório` })
+    try {
+        if (body.nome_pasta === undefined) {
+            return res.status(400).json({ message: `O nome da pasta é obrigatório` })
+        }
+    
+        if (body.nome_pasta === '') {
+            return res.status(400).json({ message: `O campo 'Nome da pasta' não pode ser vazio` })
+        }
+    
+        if (body.nome_pasta.length > 255) {
+            return res.status(400).json({ message: `O nome da pasta não deve ter mais de 255 caracteres` })
+        }
+    
+        next();
+    } catch (error) {
+        console.error("Erro ao validar o nome da pasta", error);
+        return res.status(500).json({ message: "Erro interno do servidor" });
     }
-
-    if (body.nome_pasta === '') {
-        return res.status(400).json({ message: `O campo 'Nome da pasta' não pode ser vazio` })
-    }
-
-    if (body.nome_pasta.length > 255) {
-        return res.status(400).json({ message: `O nome da pasta não deve ter mais de 255 caracteres` })
-    }
-
-    next();
 }
 
 const validadeIdPasta = async (req, res, next) => {

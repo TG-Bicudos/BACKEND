@@ -5,6 +5,12 @@ const getAll = async (id_pasta) => {
     return imagens;
 };
 
+const getImagensDispositivos = async (id_dispositivo) => {
+    const query = "SELECT Imagens.* FROM Imagens JOIN Pastas ON Imagens.id_pasta = Pastas.id WHERE Pastas.id_dispositivo = ?;"
+    const imagens = await connection.execute(query, [id_dispositivo]); 
+    return imagens;
+};
+
 const createImagem = async (imagem) => {
     const { id_pasta, nome_imagem, id_imagem_drive, data } = imagem;
 
@@ -24,4 +30,5 @@ module.exports = {
     getAll,
     createImagem,
     deleteImagem,
+    getImagensDispositivos
 };

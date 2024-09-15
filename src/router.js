@@ -27,6 +27,7 @@ router.put('/pastas/:id', pastasMiddleware.validadeIdPasta, pastasMiddleware.val
 
 //Imagens
 router.get('/imagens/:id_pasta', imagensController.getAll);
+router.get('/imagens/dispositivos/:id_dispositivo', imagensController.getImagensDispositivos);
 router.post('/imagens', imagensMiddleware.validateNomeImagem, imagensMiddleware.validadeIdPasta, imagensController.createImagem);
 router.delete('/imagens/:id', imagensController.deleteImagem);
 
