@@ -4,20 +4,21 @@ const multer = require('multer');
 const router = require('./router')
 
 const auth = new google.auth.GoogleAuth({
-  keyFile: 'credentials.json', // Baixado do Google Cloud Console
-  scopes: ['https://www.googleapis.com/auth/drive.file']
+  keyFile: 'credentials.json', 
+  scopes: ['https://www.googleapis.com/auth/drive']
 });
 
 const drive = google.drive({ version: 'v3', auth });
 
-const upload = multer({ dest: 'uploads/' }); // Middleware para uploads
+const upload = multer({ dest: 'uploads/' });
 
-// Rota para fazer upload de imagens para o Google Drive
+
+// Rota para upar as imagens para o Google Drive
 router.post('/upload', upload.single('file'), async (req, res) => {
   try {
     const fileMetadata = {
       name: req.file.originalname,
-      parents: ['1oOSJ9HX8q6RdZ-4bzFgn4d8YVSIaxq3I'] // ID da pasta compartilhada
+      parents: ['1oOSJ9HX8q6RdZ-4bzFgn4d8YVSIaxq3I'] // ID da pasta do drive
     };
     const media = { mimeType: req.file.mimetype, body: fs.createReadStream(req.file.path) };
     
@@ -26,9 +27,7 @@ router.post('/upload', upload.single('file'), async (req, res) => {
       media,
       fields: 'id'
     });
-    
-    fs.unlinkSync(req.file.path); // Deletar arquivo local após o upload
-    
+        
     res.json({ fileId: response.data.id });
   } catch (error) {
     console.error('Erro no upload:', error);
@@ -57,7 +56,7 @@ router.get('/files', async (req, res) => {
     const response = await drive.files.list({
       q: `'${folderId}' in parents and mimeType contains 'image/'`,
       fields: 'nextPageToken, files(id, name, mimeType)',
-      pageSize: 10, // Exibir 10 arquivos por vez
+      pageSize: 15, // Exibir 10 arquivos por vez
       pageToken: req.query.pageToken // Para usar a paginação no frontend
     });      
 
