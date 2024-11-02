@@ -18,14 +18,14 @@ router.put('/armadilhas/:id', armadilhaController.updateArmadilha);
 
 // Rotas de pastas
 router.get('/pastas', pastasController.getAll);
-router.post('/pastas', pastasMiddleware.validadeIdDispositivo, pastasMiddleware.validateNomePasta, pastasController.createPasta);
+router.post('/pastas', pastasMiddleware.validateIdDispositivo, pastasMiddleware.validateNomePasta, pastasController.createPasta);
 router.delete('/pastas/:id', pastasController.deletePasta);
-router.put('/pastas/:id', pastasMiddleware.validadeIdPasta, pastasMiddleware.validadeIdDispositivo, pastasMiddleware.validateNomePasta, pastasController.updatePasta);
+router.put('/pastas/:id', pastasMiddleware.validateIdPasta, pastasMiddleware.validateIdDispositivo, pastasMiddleware.validateNomePasta, pastasController.updatePasta);
 
 // Rotas de imagens
 router.get('/imagens/:id_pasta', imagensController.getAll);
 router.get('/imagens/dispositivos/:id_dispositivo', imagensController.getImagensDispositivos);
-router.post('/imagens', imagensMiddleware.validateNomeImagem, imagensMiddleware.validadeIdPasta, imagensController.createImagem);
+router.post('/imagens', imagensMiddleware.validateNomeImagem, imagensMiddleware.validateIdPasta, imagensController.createImagem);
 router.delete('/imagens/:id', imagensController.deleteImagem);
 
 module.exports = router;

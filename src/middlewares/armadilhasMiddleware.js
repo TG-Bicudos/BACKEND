@@ -1,3 +1,5 @@
+const connection = require('../models/connection');
+
 const validateNome = async (req, res, next) => {
   try {
     const { body } = req;
@@ -24,7 +26,13 @@ const validateNome = async (req, res, next) => {
 function validateLatitude(req, res, next) {
   try{
     const latitude = req.body.latitude; 
-  
+
+    if (typeof latitude !== "number" || isNaN(latitude)) {
+      return res.status(400).json({
+          error: 'Formato de dado inválido, a latitude deve ser um número, como: "32.534534".'
+      });
+    }
+
     const latitudeRegex = /^-?([0-8]?\d(\,\d+)?|90(\,0+)?)$/;
   
     if (!latitudeRegex.test(latitude)) {
@@ -45,7 +53,13 @@ function validateLongitude(req, res, next) {
       const longitude = req.body.longitude; 
   
       const longitudeRegex = /^-?([0-8]?\d(\,\d+)?|90(\,0+)?)$/;
-    
+
+      if (typeof longitude !== "number" || isNaN(longitude)) {
+        return res.status(400).json({
+            error: 'Formato de dado inválido, a longitude deve ser um número, como: "32.534534".'
+        });
+      }
+
       if (!longitudeRegex.test(longitude)) {
         return res.status(400).json({
           error: 'Formato de dado inválido, a longitude deve ser escrita dessa forma: "32,534534".'
@@ -59,8 +73,23 @@ function validateLongitude(req, res, next) {
     }
 }
 
+// const validateForms = (req, res, next) => {
+//   const invalidFields = Object.keys(req.body).filter(
+//       key => typeof req.body[key] === 'string' && req.body[key].trim() === ''
+//   );
+
+//   if (invalidFields.length > 0) {
+//       return res.status(400).json({
+//           message: `Os campos não podem estar vazios ou conter apenas espaços: ${invalidFields.join(', ')}`
+//       });
+//   }
+
+//   next();
+// };
+
 module.exports = {
     validateNome,
     validateLatitude,
-    validateLongitude
+    validateLongitude,
+    // validateForms
 }

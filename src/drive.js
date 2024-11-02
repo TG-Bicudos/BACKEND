@@ -9,7 +9,7 @@ const auth = new google.auth.GoogleAuth({
   keyFile: 'credentials.json',
   scopes: ['https://www.googleapis.com/auth/drive']
 });
-const drive = google.drive({ version: 'v3', auth }); // Esse trem é o que permite interagir diretamente com o google drive
+const drive = google.drive({ version: 'v3', auth });
 const upload = multer({ dest: 'uploads/' });
 
 router.post('/upload', upload.single('file'), async (req, res) => {
