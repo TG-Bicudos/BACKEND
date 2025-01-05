@@ -71,23 +71,23 @@ const validateIdPasta = async (req, res, next) => {
     }
 };
 
-// const validateForms = (req, res, next) => {
-//     const invalidFields = Object.keys(req.body).filter(
-//         key => typeof req.body[key] === 'string' && req.body[key].trim() === ''
-//     );
+const validateForms = (req, res, next) => {
+    const invalidFields = Object.keys(req.body).filter(
+        key => typeof req.body[key] === 'string' && req.body[key].trim() === ''
+    );
 
-//     if (invalidFields.length > 0) {
-//         return res.status(400).json({
-//             message: `Os campos não podem estar vazios ou conter apenas espaços: ${invalidFields.join(', ')}`
-//         });
-//     }
+    if (invalidFields.length > 0) {
+        return res.status(400).json({
+            message: `Os campos não podem estar vazios ou conter apenas espaços: ${invalidFields.join(', ')}`
+        });
+    }
 
-//     next();
-// };
+    next();
+};
 
 module.exports = {
     validateIdDispositivo,
     validateNomePasta,
     validateIdPasta,
-    // validateForms
+    validateForms
 };
